@@ -1,17 +1,31 @@
-# Publish the six Apache-2.0 libraries to npm with provenance, from a release tag.
+# Publish the Apache-2.0 libraries to npm, from a release tag.
 #
-# Nothing here holds a token. npm's trusted publishing ties the package to this repository and
-# this workflow through GitHub's OIDC identity, and every published tarball carries a provenance
-# attestation a consumer can verify with `npm audit signatures`. The organisation (@projectx-social)
-# has to list this repository and workflow as a trusted publisher first; until it does, this job
-# fails at publish and publishes nothing.
+# # Why pack with pnpm and publish with npm
 #
-# Proprietary packages are never in this list, and each carries "private": true as a hard stop.
+# These packages depend on each other through `workspace:*`, which is a pnpm instruction and not a
+# version range. `npm publish` does not rewrite it: it would put `"@projectx-social/sdk":
+# "workspace:*"` into the published manifest, and every install of the four dependent packages
+# would fail to resolve. `pnpm pack` writes the publish manifest properly — verified by unpacking
+# the signer tarball, whose dependencies read `1.0.0` — and `npm publish <tarball> --provenance`
+# then attaches the attestation that pnpm 9 cannot.
+#
+# # The token, and why it is temporary
+#
+# npm configures trusted publishing inside a package's own settings, which do not exist until the
+# package has been published once. So the first release authenticates with a granular token held
+# as a repository secret; every release after it should use trusted publishing, and this file
+# should lose the token when that is configured. The provenance attestation is produced either
+# way, from this workflow's GitHub identity.
+#
+# `@projectx-social/daemon` is deliberately absent. It declares no `main`, no `exports`, no `bin`
+# and no `files`: published as it stands it would be an unusable package carrying whatever happened
+# to be in its directory. It ships when it has an entry point, not before.
 name: Publish to npm
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,10 +43,32 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
-      - name: Publish, in dependency order
+      - name: Pack, in dependency order
         run: |
-          set -e
-          for p in sdk policy signer agent mcp daemon; do
-            echo "== @projectx-social/$p"
-            (cd packages/$p && npm publish --provenance --access public)
+          set -euo pipefail
+          mkdir -p /tmp/tarballs
+          for p in sdk policy signer agent mcp; do
+            (cd "packages/$p" && pnpm pack --pack-destination /tmp/tarballs)
+          done
+          ls -la /tmp/tarballs
+      - name: Refuse any tarball still carrying a workspace link
+        # The one failure this whole file exists to prevent, checked rather than trusted.
+        run: |
+          set -euo pipefail
+          for t in /tmp/tarballs/*.tgz; do
+            if tar -xzOf "$t" package/package.json | grep -q '"workspace:'; then
+              echo "REFUSED: $t still contains a workspace: dependency"
+              exit 1
+            fi
+          done
+          echo "no workspace links in any tarball"
+      - name: Publish, in dependency order
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.KAELASECRET }}
+        run: |
+          set -euo pipefail
+          for p in sdk policy signer agent mcp; do
+            f=$(ls /tmp/tarballs/projectx-social-$p-*.tgz)
+            echo "== publishing $f"
+            npm publish "$f" --provenance --access public
           done
