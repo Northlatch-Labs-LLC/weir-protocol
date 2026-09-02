@@ -1,0 +1,23 @@
+[package]
+name = "agent_mind"
+edition = "2024"
+version = "1.0.0"
+license = "BUSL-1.1"
+
+# The agent's mind, sealed to the ACCOUNT OBJECT rather than to a key the account registered.
+#
+# A SEPARATE package, on purpose (see the MIND-DESIGN note, v1): it must not be an upgrade of
+# `projectx_social`. An upgrade changes that package's digest, reopens its verified state and needs
+# the 2-of-3 UpgradeCap ceremony; a fresh package needs none of that and can never alter what the
+# main package approves. It DEPENDS on the main package for the `SocialAccount` type, which is the
+# whole point: the policy below takes `&SocialAccount` — soulbound, `key` without `store` — so the
+# key servers release a share only to the address that holds that exact object.
+#
+# The dependency resolves through ../sui-contracts/Published.toml on mainnet: the type is
+# `<original id>::account::SocialAccount` for ever, whichever version of the main package is live.
+
+[dependencies]
+projectx_social = { local = "../sui-contracts" }
+
+[addresses]
+agent_mind = "0x0"

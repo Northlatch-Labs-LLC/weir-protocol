@@ -1,0 +1,10 @@
+# Nothing that could carry a secret or a machine's state reaches a build context.
+.env
+.env.*
+**/.env
+**/.env.*
+.git
+**/node_modules
+**/.next
+**/dist
+**/*.log

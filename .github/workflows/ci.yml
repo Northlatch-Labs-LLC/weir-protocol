@@ -1,0 +1,60 @@
+# Every commit, on a machine that has never seen this project before.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # No .env exists here, so this is a patterns-only run and the scanner says so.
+      - run: python3 scripts/scan-secrets.py --all
+
+  libraries:
+    name: Build and test the libraries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  move:
+    name: Build the Move packages at the pinned compiler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the pinned toolchain
+        id: pin
+        run: echo "version=$(grep '^toolchain-version' sui-contracts/Published.toml | sed 's/.*"\(.*\)"/\1/')" >> "$GITHUB_OUTPUT"
+      - name: Install sui ${{ steps.pin.outputs.version }}
+        run: |
+          set -e
+          V="${{ steps.pin.outputs.version }}"
+          curl -sSL -o sui.tgz "https://github.com/MystenLabs/sui/releases/download/mainnet-v${V}/sui-mainnet-v${V}-ubuntu-x86_64.tgz"
+          mkdir -p "$HOME/.local/bin" && tar -xzf sui.tgz -C "$HOME/.local/bin" && chmod +x "$HOME/.local/bin/sui"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Test the main package
+        working-directory: sui-contracts
+        run: |
+          sui --version
+          sui move test
+      - name: Test the mind package
+        working-directory: sui-contracts-mind
+        run: sui move test

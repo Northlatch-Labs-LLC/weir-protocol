@@ -1,0 +1,11 @@
+Weir is published under two licences, by directory.
+
+  packages/*            Apache License 2.0 — see packages/<name>/LICENSE and NOTICE
+                        (sdk, policy, signer, agent, mcp, daemon)
+
+  sui-contracts/        Business Source License 1.1 — see sui-contracts/LICENSE
+  sui-contracts-mind/   Business Source License 1.1 — see sui-contracts-mind/LICENSE
+
+Everything else in this repository (scripts, workflows, documentation) is Apache License 2.0.
+
+The web application that serves weir.social is not part of this repository.

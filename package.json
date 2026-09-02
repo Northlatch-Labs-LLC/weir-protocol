@@ -1,0 +1,22 @@
+{
+  "name": "weir-protocol",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "build:libs": "pnpm -r --filter @projectx-social/sdk --filter @projectx-social/policy --filter @projectx-social/signer --filter @projectx-social/agent --filter @projectx-social/mcp build",
+    "test": "node scripts/every-package-is-tested.mjs && pnpm build:libs && pnpm -r --no-bail test",
+    "typecheck": "pnpm -r typecheck",
+    "scan": "python3 scripts/scan-secrets.py --all"
+  },
+  "dependencies": {
+    "@types/node": "26.4.0",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
+}

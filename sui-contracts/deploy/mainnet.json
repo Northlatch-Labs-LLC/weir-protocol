@@ -1,0 +1,439 @@
+{
+  "_comment": [
+    "ProjectX Social \u2014 Sui mainnet deployment record.",
+    "Every id below was read back from chain after publish, not copied from the publish output.",
+    "This file is a record, not configuration: clients must read it or an equivalent env var and",
+    "must never carry any of these ids as a source literal."
+  ],
+  "network": "mainnet",
+  "publishedAt": "2026-08-14",
+  "publishTxDigest": "DbB4fSp7GV9C2UTRWe2T7f8G7ddT8fo4QjnnBtLddpct",
+  "publisherAddress": "0xda784b6c20c5995f6b719a20a26eddee5ec971c8ecec890e61c8b4634dd1715d",
+  "gasSpentMist": 180474000,
+  "packageId": "0xc5c833991ed1123d70b1001c0bcdb01ec5728b09f25dfc42a0edaf16005d404d",
+  "shared": {
+    "platform": "0x3f695b2c32714e2359c4bb9515598d8dd765b216148c5b8fa818073d52b50f36",
+    "registry": "0x1a3fb4ac25458d7524be064a2b7e1586ccd9ed09c0d5b351621e3b101e1203a0"
+  },
+  "capabilities": {
+    "_comment": "The governing caps are SPLIT AGAIN, deliberately. PlatformCap was moved from the multisig back to the publisher (dev) address later on 2026-08-28 (tx d9QgGRN7CQEw9h2ZzVaDqurSdk8LHZ8uMKed8ufVxL5) so the operator can run platform actions \u2014 starting with re-pausing vault creation \u2014 through the /admin single-key sign path; the multisig ceremony was too heavy for day-to-day operation with no guided console. UpgradeCap remains in the 2-of-3 multisig, so code upgrades stay cold. Publisher and Display<Platform> have been on the publisher address throughout. Owners below were read from chain after the move on 2026-08-28 \u2014 see custody. This comment has repeatedly lagged the actual custody arrangement; if you are editing capability ownership, edit this line in the same commit.",
+    "platformCap": "0x23909c63932afd97de2515c142ca5ea082c71c5efab469401a239631acc3b683",
+    "upgradeCap": "0x895e20c44aed9c884be8dffa42c93d93653b47e86cd3a12d919998d9b1eaed08",
+    "publisher": "0x64f007b87b9e46d08f75f6833af33b45955f51ee4cdc233a0daed0b8c1417d27",
+    "displayPlatform": "0x622c44c3d14e574a38b674541574a132374e5935a46da0a617f3f1b0aea45403",
+    "custody": {
+      "_comment": "Verified by reading each object on mainnet, not from a transfer receipt. PlatformCap sits on the operator's publisher (dev) address so the admin panel can sign platform actions with one key; UpgradeCap remains behind the 2-of-3 multisig, so no single key can substitute code. This restores the operational split: rate/pause/treasury governance is hot by choice, code upgrades are cold.",
+      "verifiedAtIso": "2026-08-28",
+      "platformCapOwner": "0xda784b6c20c5995f6b719a20a26eddee5ec971c8ecec890e61c8b4634dd1715d",
+      "upgradeCapOwner": "0x00e734d54be45c002579f36698823eaf2410b59eb30a398fd6c8af9e1b111605",
+      "publisherOwner": "0xda784b6c20c5995f6b719a20a26eddee5ec971c8ecec890e61c8b4634dd1715d",
+      "displayPlatformOwner": "0xda784b6c20c5995f6b719a20a26eddee5ec971c8ecec890e61c8b4634dd1715d",
+      "note": "The multisig is CONFIRMED, not inferred. Its address was re-derived on 2026-08-20 from the three member public keys recorded in MULTISIG-RECOVERY-CARD.md with threshold 2, and reproduced 0x00e734d54be45c002579f36698823eaf2410b59eb30a398fd6c8af9e1b111605 exactly. The earlier note here said this was consistent with a multisig but unconfirmed; it is now confirmed. A Sui multisig address is derived from its key set and has no single private key, so it will never appear in a keystore.",
+      "consequence": "PlatformCap is on the publisher (dev) address, so set_fees, set_creation_paused, set_payments_paused, sweep_treasury and migrate can each be signed by the dev key alone, and the /admin console's single-key Sign-and-submit path governs platform actions again. UpgradeCap stays 2-of-3: replacing the contract code still requires two committee signatures. Accepted trade, chosen by the operator on 2026-08-28: platform operation is hot for usability (the immediate need was re-pausing vault creation to return Weir to waitlist mode), code custody stays cold. Fees remain fee 290 bps, referral_share 500 bps, creation fee 29 SUI = 29000000000 MIST.",
+      "platformCapMovedIso": "2026-08-28",
+      "platformCapMovedNote": "Two moves on 2026-08-28. First: publisher -> multisig, tx 447M5vYAEDUuU3jy3HRftmn7T6Pb94JiNR1YcXSfBQMF (SUCCESS), signed by the publisher key. Second, later the same day: multisig -> publisher, tx d9QgGRN7CQEw9h2ZzVaDqurSdk8LHZ8uMKed8ufVxL5 (SUCCESS), executed by the operator as a full 2-of-3 ceremony from this laptop \u2014 serialized transfer with the multisig as sender, dry-run first, signed by committee members 1 (msig-laptop) and 3 (msig-offsite, temporarily re-imported into the keystore for the ceremony), signatures combined with multi-sig-combine-partial-sig and executed with execute-signed-tx; gas paid by the multisig. The multisig itself is unchanged: same 2-of-3 derived from the same three public keys in MULTISIG-RECOVERY-CARD.md, and it still holds the UpgradeCap."
+    }
+  },
+  "configurationTxs": {
+    "setFees": "F163PBxm58ZdHGv8ct7pWuHixZyMgWKdHybbSewRauhf",
+    "setReferralShare": "3zMD2HsEgEpdV5AgtdMTu5TWUgyA9UZgzSzJ21FSv2X9",
+    "openPlatform": "k75GAoxjAdQouzizyVmBA8xK9sKEH8X3C5R7Devsdki"
+  },
+  "verifiedOnChain": {
+    "_comment": "Read back from the Platform object after configuration. Not copied from any transaction output.",
+    "readAt": "2026-08-14",
+    "version": 1,
+    "feeBps": 290,
+    "referralShareBps": 500,
+    "creationFeeMist": 0,
+    "creationPaused": false,
+    "paymentsPaused": false,
+    "treasuryMist": 0,
+    "accountsCreated": 0,
+    "vaultsCreated": 0,
+    "platformCapBindsToPlatform": true,
+    "upgradeCapPolicy": 0
+  },
+  "validator": {
+    "_comment": "For stake_vault::open. NOT a platform parameter \u2014 it is passed per vault and stamped in. Verified on chain 14 Aug 2026 via `sui validator display-metadata`, not taken from documentation.",
+    "name": "OKXEarn",
+    "address": "0x00ae78d3e5ba5d6b8de32455474f52811b95617cbad39ebf4f9e2daf67187407",
+    "statusVerified": "Active",
+    "commissionRateBps": 0,
+    "nextEpochCommissionRateBps": 0,
+    "recheckBefore": "Commission is a validator-set value that can change at an epoch boundary. It comes off yield before the vault ever sees it, so re-read it before opening vaults in volume; a rise reduces creator revenue invisibly from inside the contract's own accounting."
+  },
+  "rpc": {
+    "_comment": "JSON-RPC is DEAD on Sui public fullnodes as of 14 Aug 2026 \u2014 suix_getLatestSuiSystemState returns -32601 'JSON-RPC on public fullnodes has been deprecated'. Any client for this package must use gRPC or GraphQL. Consistent with the P0-02 finding recorded in the wider estate.",
+    "jsonRpcAvailable": false
+  },
+  "status": {
+    "_comment": "LIVE. Accounts and creator vaults can now be opened by anyone. Fees are 290 bps and are snapshotted into each vault at creation.",
+    "live": true,
+    "outstanding": [
+      "CORRECTED 2026-09-01: this entry asserted \"platform governance is cold\" while capabilities.custody in this same file recorded the opposite, and the chain agrees with custody, not with this. PlatformCap 0x23909c63\u2026b683 is owned by the publisher address 0xda784b6c\u2026715d, NOT by the multisig. That is a deliberate operator choice made 2026-08-28 so the single-key admin console can sign platform actions, and it is not a defect. The DEFECT WAS THIS RECORD: it is the file somebody opens during an incident, and it told them a capability was cold that is not. UpgradeCap 0x895e20c4\u2026ed08 has remained behind the 2-of-3 multisig 0x00e734d5\u20261605 throughout, so no single key can substitute code \u2014 the operational split is hot governance, cold upgrades, by choice. History, because this entry has been stale several times: at publish both caps were on the publisher; 2026-08-15 06:30 UTC both moved to the multisig (tx 2PQUY5wuc4pYnDAiby9q2ZgKUETjraio45Q3NNEw76fQ); 2026-08-20 PlatformCap returned to the publisher; 2026-08-28 it was recorded as moved back to the multisig, which the chain does not support. Verify against chain before trusting any line here.",
+      "referralShareBps is 500 \u2014 a share of the platform's 290 bps cut, not of the gross, matching the semantics of the parameter. On a 10 USDC subscription that pays a referrer 0.0145 USDC. The ceiling is 5000, which would pay 0.145. Set before any vault existed, so no vault snapshotted a zero share.",
+      "The encryption key registry is on chain and the Postgres table is dropped (db/004). Publishing a key needs gas, so an address with no SUI cannot receive encrypted messages at all. That is the deliberate price of the operator no longer being able to withhold a key; the UI says so."
+    ]
+  },
+  "firstVault": {
+    "_comment": "The protocol's own first account and stake vault, opened 14 Aug 2026 to verify the daemon's decoder against real serialised state rather than only a synthetic buffer. The 2 SUI is deposited principal, not spend: it is redeemable one-for-one at any time.",
+    "handle": "projectx",
+    "socialAccount": "0x3d301ed93b6e57e3e2eca4a13fa66222faaaa5ebfc181da2f94ef62eff614089",
+    "stakeVault": "0xee64d87381e0056ec944af98a7a8a77a0de25652f4bee5e174df4b8b4f10bb11",
+    "stakeCap": "0x0b888288f133fedfbed371da78b4fbfc0053cd68bb440daf168a0b479027e1c5",
+    "validator": "OKXEarn",
+    "txs": {
+      "openAccount": "5M2C9TTg2MbmHZyNzBGZf8b3JCTprXkXejAxz3Ms1ZwZ",
+      "openVault": "CX9vSXnLH4WxdwtNuMvSYrGbHXsMGsSTqedr4SAmEAbx",
+      "deposit2Sui": "329eGkM5jmSfeZNg9Rw1ae2HDGRFvgCsgZhw2SFbWRg8",
+      "firstHarvest": "CwTnacX9yKtHp7qzqwuofHZxa4MkbYdDF7k27F1GPF2J"
+    },
+    "stateAfterFirstHarvest": {
+      "totalPrincipalMist": 2000000000,
+      "stakedMist": 1000000000,
+      "liquidMist": 1000000000,
+      "tranches": 1,
+      "lifetimeYieldMist": 0,
+      "note": "One rung of exactly 1 SUI because rung_size(2 SUI) is 285,714,285 \u2014 below Sui's minimum stake \u2014 so the ladder degrades to one larger rung rather than to no ladder. lifetimeYield is 0 because nothing has matured; it is a measured zero, returned inside an ok reading, not a failed read."
+    },
+    "depositViaCheckout": {
+      "_comment": "The deposit checkout proven end to end, 14 Aug 2026: prepare/simulate through the web API, sign the returned bytes, submit through the same API. The signing key never left the sui CLI keystore.",
+      "tx": "8avb94CJyi2U5kVLW6t6deLrikuvQrzKWznHT1wAwmRR",
+      "quotedBeforeSigning": {
+        "depositSui": "1.0",
+        "gasSui": "0.000181928",
+        "walletDeltaSui": "-1.000181928"
+      },
+      "verifiedOnChain": {
+        "totalPrincipalSui": 3,
+        "liquidSui": 2,
+        "stakedSui": 1,
+        "tranches": 1,
+        "solvent": true,
+        "ladderCaptureBps": 1428,
+        "daemonDecision": "already-staked-this-epoch"
+      },
+      "note": "Read back through the daemon's own BCS decoder rather than the CLI, so the decoder, the solvency invariant and the harvest decision were all exercised against live post-deposit state. Ladder capture is 14.28% because one rung of seven is filled; it converges as further rungs are staked, one per epoch."
+    },
+    "withdrawalProof": {
+      "_comment": "The no-loss guarantee proven on mainnet, 14 Aug 2026. A full-position withdrawal while part of the principal was delegated, forcing the emergency unwind.",
+      "tx": "C9bbkgkkuKMbp1QLq7xt2UTxEj4x18r8VXzRZVcfX57p",
+      "before": {
+        "totalPrincipalSui": 3,
+        "liquidSui": 2,
+        "stakedSui": 1,
+        "tranches": 1
+      },
+      "withdrawn": {
+        "requestedSui": 3,
+        "receivedSui": 3,
+        "tranchesUnwound": 1,
+        "principalAfter": 0
+      },
+      "after": {
+        "totalPrincipalSui": 0,
+        "liquidSui": 0,
+        "tranches": 0,
+        "solvent": true
+      },
+      "walletDelta": "+2.990164 SUI \u2014 the full 3 returned, less ~0.0098 gas",
+      "note": "Liquid held only 2 of the 3 SUI, so the contract unwound a delegated tranche to make the depositor whole in the same transaction. No waiting period and no operator action. lifetime_yield stayed 0 because the tranche was unwound before maturity \u2014 that forgone yield is the CREATOR's, never the depositor's, which is the asymmetry that makes the guarantee unconditional."
+    }
+  },
+  "firstCreatorVault": {
+    "_comment": "The first flow-leg vault, opened 14 Aug 2026 so the subscribe path has something real to check out against. Denominated in native Circle USDC \u2014 the canonical instance of the generic <T>.",
+    "coinType": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+    "creatorVault": "0xac9ccb28667782d4bece2bbbc205939d28cca75fa131e6c627f8aef1db524cf8",
+    "creatorCap": "0x753fac8442493186e19df11afd66c55ab9b8e6aeadeafc9bc95594b2dc18429f",
+    "txs": {
+      "openVault": "C9XJDaswD6CbhbXRgNdL3gbhEdDS8o72VZWgdhkKLyCE",
+      "addTier": "EueUarD7sgPcCEEncWdkJPZLucK8kMQKKwtRJPDqK4Kx"
+    },
+    "verifiedOnChain": {
+      "_comment": "Read back from the vault object, not copied from transaction output.",
+      "feeBpsSnapshot": 290,
+      "referralShareBpsSnapshot": 500,
+      "accepting": true,
+      "earnings": 0,
+      "platformFees": 0,
+      "grossVolume": 0,
+      "subscriptionsSold": 0,
+      "tiers": [
+        {
+          "index": 0,
+          "name": "Monthly",
+          "priceMinorUnits": 10000000,
+          "priceUsdc": "10.00",
+          "periodMs": 2592000000,
+          "periodDays": 30,
+          "active": true
+        }
+      ]
+    },
+    "note": "fee_bps_snapshot and referral_share_bps_snapshot are stamped at creation and never read from the platform again \u2014 ProjectX cannot raise the rate on this vault. Only the creator can adopt a new schedule via accept_current_terms, which is how a fee CUT would reach it."
+  },
+  "firstSubscription": {
+    "_comment": "The first end-to-end payment on the flow leg, 14 Aug 2026. Executed through the web checkout's own API \u2014 prepare/simulate, sign the returned bytes, submit \u2014 not a bypass script.",
+    "buyerAddress": "0x7c7912f1227901d45387b4f8393f8c8d034801fee855f52550b09baefadf75b5",
+    "buyerAccount": "0x5e384ee9bd13498c9e89a12cda615700949cb3fc8675607667785cc3130619a3",
+    "subscriptionObject": "0x1f4cfd2d57755321c7fc9559df7f82b0222be536bff25236fed0770ba01183cf",
+    "tier": {
+      "index": 1,
+      "name": "Supporter",
+      "priceMinorUnits": 500000,
+      "priceUsdc": "0.50",
+      "periodDays": 30
+    },
+    "txs": {
+      "addTier": "D3biZArMMPhmmYrVquzwgKSTDZvFZgiMcJYAzVWxTPJN",
+      "openBuyerAccount": "H5vqfpcVkRzZaTox56NbeNmRbziHKkAH3kEcYiEfrGD7",
+      "subscribe": "BhFDRtXntki9J2nMzzvysUWvVwcwTFYJKQP9Zi7Pp5Z7"
+    },
+    "verifiedOnChain": {
+      "_comment": "Read back from the vault object and the emitted events, not from transaction output.",
+      "earnings": 485500,
+      "platformFees": 14500,
+      "grossVolume": 500000,
+      "subscriptionsSold": 1,
+      "conservationHolds": true,
+      "platformIs290Bps": true
+    },
+    "note": "PaymentSettled emitted gross 500000, creator_net 485500, platform_net 14500, referral_cut 0, referrer null \u2014 the unreferred case where the whole fee stays with the platform. The Subscription object is soulbound to the buyer and expires 30 days out."
+  },
+  "yieldExperiment": {
+    "_comment": "The open question this deployment exists to answer: does the ladder realise yield, where the predecessor read zero on 22 consecutive harvests? Restarted 14 Aug 2026 after the withdrawal proof emptied the vault.",
+    "txs": {
+      "redeposit": "Dj5d5fGXFU1Vz9skTpgqMLoJnMT8VwMaNZMFDu3YhCGT",
+      "stakeRung": "Fh2qQGcXfTwC2R34KWzcRLaYUDMhB1vhCjur4KkNqYg2"
+    },
+    "state": {
+      "totalPrincipalSui": 2,
+      "liquidSui": 1,
+      "stakedSui": 1,
+      "trancheActivationEpoch": 1221,
+      "startedAtEpoch": 1220
+    },
+    "maturesAtEpoch": 1227,
+    "whatToCheck": "After epoch 1227, call harvest and read lifetime_yield. Strictly positive means the ladder works. Still 0 means the defect that produced 22 consecutive zero harvests on projectx::usdc_prize_factory has recurred, and it will be visible as a chain read rather than inferred.",
+    "howToCheck": "cd packages/daemon && PROJECTX_SOCIAL_GRPC_URL=... pnpm test:chain \u2014 the live suite asserts the decoder and the decision against this vault.",
+    "caveat": "Nothing harvests on a schedule yet. The rung was staked by hand, and the ladder cannot converge past one rung of seven until the daemon runs with a funded gas key. A single tranche still answers the yield question; it just captures 1/7 of what a full ladder would."
+  },
+  "harvestDaemon": {
+    "_comment": "Runs stake_vault::harvest once per epoch per vault. Its key is gas-only: harvest takes no capability, so a leak costs nothing beyond the gas float.",
+    "signerAddress": "0x9bb9b2d039074223f7ea6a68ea3ffc7cf6efc0b0f76a07cc3ef3918f8220ff84",
+    "fundedSui": 0.2,
+    "gasBudgetMist": 20000000,
+    "tickSeconds": 3600,
+    "verified": "Runs live against mainnet: discovers the vault from events, reads epoch 1220, and correctly declines because a rung is already staked this epoch.",
+    "doNotGrant": [
+      "PlatformCap",
+      "StakeCap",
+      "CreatorCap"
+    ],
+    "operationalNote": "No restart supervision. `pnpm start` loops in-process, so a crash stops it silently; `--once` from cron is the more robust shape because a missed run costs one epoch rather than being permanent."
+  },
+  "secondCreators": {
+    "_comment": "Opened to make feed filtering and notifications genuinely testable. With one creator, a Following feed and an Everything feed are identical by coincidence and would pass against a filter that did nothing.",
+    "suiladder": {
+      "vault": "0x52e03de235f3b361d3c6ee4a8764937e3ee975b66d2812fb981358149e70a0e2",
+      "owner": "developer"
+    },
+    "reader": {
+      "vault": "0x25cb9d06a1827a2198e5bd2aaa9e541395a2aba7e16bac42b4042f89f03277d9",
+      "owner": "testbuyer",
+      "tier": "Reader, 0.05 USDC / 30 days",
+      "paidBy": "qq5jvEYSLVMfPUe2HQBYd2RYeStccbbABZaxwLteJ1c",
+      "note": "Owned by the one key available to scripts here, so a signed inbox could be read and the notification path proven end to end."
+    }
+  },
+  "packageIdNote": "packageId below is the ORIGINAL publish and is what every struct and event type tag carries, forever. Calls must target upgrades.v2.packageId \u2014 Sui does not resolve a package id to its newest version, so calling the original address runs the original bytecode.",
+  "upgrades": {
+    "v2": {
+      "date": "2026-08-15",
+      "reason": "Adds key_registry: a shared, on-chain registry of X25519 encryption keys for direct messages. It replaces a Postgres table which, although self-certifying (entries were signed by their owner), could still be WITHHELD by the operator \u2014 and a withheld key is indistinguishable from an address that never published one, so the sender falls back to plaintext with nothing looking wrong. A downgrade attack with no signal.",
+      "packageId": "0xa7fd154039f77780f808c7262511a9f4a860620d57e17b58e0e2ca010e1d214d",
+      "upgradeTxDigest": "B9LKBcFQNRsEbmrCHAHGpiLtyVrhzqhmWoficcGL59nK",
+      "gasSpentMist": 183905740,
+      "modulesAdded": [
+        "key_registry"
+      ],
+      "modulesUnchanged": [
+        "account",
+        "creator",
+        "entitlement",
+        "platform",
+        "stake_ladder",
+        "stake_vault"
+      ],
+      "compatibility": "Verified locally by the CLI before publish; --skip-verify-compatibility was NOT used.",
+      "created": {
+        "keyRegistry": "0xe5b8456ccee16c1a1a6ddce1c5523418b4df6b5ce08eb14cea9bf6606eceb6d6",
+        "_comment": "init() of a module that is NEW in an upgrade DOES run. Confirmed in the dry run before executing, not assumed from documentation."
+      },
+      "verifiedOnChain": {
+        "_comment": "Read back through the SDK's own BCS decoder and dynamic-field derivation, not copied from transaction output.",
+        "readAt": "2026-08-14",
+        "keysTableId": "0x23a7257dd78cfa9473c2c0f1f44c4fb2d58fa2c2386b176d3c2f7d27795b286d",
+        "publishedKeysRead": 2,
+        "absenceIsMeasured": "An address with no entry returns null INSIDE an ok reading, never a failure \u2014 a sender must be able to tell 'they have no key' from 'we could not look'."
+      },
+      "endToEnd": {
+        "_comment": "Driven through the real UI in a browser, with real Ed25519 signatures. Two accounts published keys as mainnet transactions, then exchanged an encrypted message.",
+        "publishFlow": "derive from wallet signature -> read chain -> prepare/simulate -> quote gas -> sign -> submit",
+        "gasPerPublishMist": 2536000,
+        "secondDeviceCost": "zero \u2014 the chain already holds the key, so no transaction is proposed",
+        "messageRow": "encrypted=true, body='', preview='', 2 envelopes, ciphertext only"
+      },
+      "operationalNote": "PROJECTX_SOCIAL_LATEST_PACKAGE_ID must be set to this package id, and PROJECTX_SOCIAL_PACKAGE_ID must stay on the original. Event filters and object type filters use the original; every moveCall uses the latest. Getting this backwards makes the harvest daemon discover zero vaults and report it as 'no vaults'.",
+      "_corrected_2026-08-30": "Two fields in this entry were wrong and are corrected above. packageId held 0xfa7eb18bbb29b047ec86434e8a8f4cfba35615bde9680eebd781a187ca3a3694, which the chain reports as version 3, not this upgrade. upgradeTxDigest held 7GmmGJpYYAeWH1EZqPwbYpCoSQ5a26M6EurwSVizE1L4, which returns 'Transaction not found' and was most likely a dry-run digest recorded before execution. Everything else in this entry was already correct for v2 and is untouched: gasSpentMist 183905740 matches the real v2 transaction exactly, and the KeyRegistry it records as created carries the type tag 0xa7fd15...214d::key_registry::KeyRegistry, which is this package. The wrong values are kept here rather than removed, because they are the record of how a whole upgrade came to be missing from this file.",
+      "_dateNote": "Chain timestamp 2026-08-15 05:05 UTC. This entry previously read 2026-08-14, a local-timezone rendering of the same moment.",
+      "sender": "0xda784b6c20c5995f6b719a20a26eddee5ec971c8ecec890e61c8b4634dd1715d"
+    },
+    "v3": {
+      "date": "2026-08-26",
+      "_dateNote": "Chain timestamp 2026-08-26 05:20 UTC.",
+      "reason": "Attributed to commit eaf1215, 'Rebate drain and the tier/Seal period mismatch (#2)', which landed at 2026-08-26 05:19 UTC \u2014 one minute before this upgrade transaction. That is timing and content evidence, not a claim read off the chain: the upgrade itself records only that the same seven modules were republished.",
+      "packageId": "0xfa7eb18bbb29b047ec86434e8a8f4cfba35615bde9680eebd781a187ca3a3694",
+      "upgradeTxDigest": "CNmjFLK1B67ShvEswUi4S3BkmSaD6JQEZgUjEDJn2xKt",
+      "sender": "0x00e734d54be45c002579f36698823eaf2410b59eb30a398fd6c8af9e1b111605",
+      "_senderNote": "The 2-of-3 multisig that holds the UpgradeCap. v2 was sent by the dev key; this one was not.",
+      "gasSpentMist": 202352420,
+      "modulesRepublished": [
+        "account",
+        "creator",
+        "entitlement",
+        "key_registry",
+        "platform",
+        "stake_ladder",
+        "stake_vault"
+      ],
+      "modulesAdded": [],
+      "created": {},
+      "_verified": "Read from chain 2026-08-30: package 0xfa7eb1...3694 is Immutable at version 3, and the UpgradeCap 0x895e20c4...ed08 names it with version 3."
+    },
+    "v4": {
+      "date": "2026-09-02",
+      "reason": "Six modules changed since v3 (commits 92155d9..8421880 plus creator::renew ENotSubscriber): referrer must be a member, key_registry version never goes backwards, rebate accounting, subscription renewal after a lapse, creator vault platform migrate door, creation fee cap, harvest counter gate. No VERSION constant moved, so no migrate call was needed.",
+      "packageId": "0x3d9f167f5ac3e1fb5aca2305807fb75273543d83ca127e5b08e8f9faa3078391",
+      "upgradeTxDigest": "9CwwuNQNFVWJnWLf2LLMewKahVsDVtB5DJz6y4s2B7Lz",
+      "sender": "0x00e734d54be45c002579f36698823eaf2410b59eb30a398fd6c8af9e1b111605",
+      "_senderNote": "The 2-of-3 multisig: two committee signatures combined with multi-sig-combine-partial-sig; the combined signature re-derived the multisig address exactly.",
+      "gasSpentMist": 214338420,
+      "toolchain": "sui 1.78.1 (protocol 135)",
+      "digest": "e1254bc4cbb1a5a83e143047386aa2bc30b17ef7bb3d08da75a44f9c0d0a94cd",
+      "modulesRepublished": [
+        "account",
+        "creator",
+        "entitlement",
+        "key_registry",
+        "platform",
+        "stake_ladder",
+        "stake_vault"
+      ],
+      "modulesAdded": [],
+      "created": {},
+      "_verified": "sui client verify-source against Published.toml (published-at v4): 'Source verification succeeded!' on 2026-09-02, same day, from this repository at the ceremony commit."
+    },
+    "v5": {
+      "date": "2026-09-02",
+      "reason": "Subscription Seal approval ranked by price paid: creator::seal_approve_subscription<T> checks sender, vault, period identity, tier price <= Subscription.price_paid and entitlement::covers_period; the old entitlement::seal_approve_subscription aborts EDeprecatedApproval (8). New abort codes ENotSubscriber 20, EWrongIdentity 21, ETierNotPaidFor 22, EPeriodNotPaid 23. No VERSION constant moved, so no migrate call was needed.",
+      "packageId": "0xdc6dbb96885ba049c5d860d0b775b9e968cf9053a227861ae006f22e352884b5",
+      "upgradeTxDigest": "ErwqNnZHR8cJVLLwZ5KNejjRzxvXujPodrPv89wRFqJE",
+      "sender": "0x00e734d54be45c002579f36698823eaf2410b59eb30a398fd6c8af9e1b111605",
+      "_senderNote": "The 2-of-3 multisig: two committee signatures combined with multi-sig-combine-partial-sig; the combined signature re-derived the multisig address exactly.",
+      "gasSpentMist": 217467020,
+      "toolchain": "sui 1.78.1 (protocol 135)",
+      "digest": "bf494c1392f634c90775a7399bb4b3e26297170bc28e6dddbd9637b77667f5de",
+      "modulesRepublished": [
+        "account",
+        "creator",
+        "entitlement",
+        "key_registry",
+        "platform",
+        "stake_ladder",
+        "stake_vault"
+      ],
+      "modulesAdded": [],
+      "created": {},
+      "_verified": "sui client verify-source against Published.toml (published-at v5): 'Source verification succeeded!' on 2026-09-02, same day, from this repository at main 0acd870."
+    }
+  },
+  "verificationWallet": {
+    "_comment": [
+      "A dedicated address for proving write paths on mainnet, nominated by the operator and funded",
+      "for the purpose. It holds no PlatformCap, no UpgradeCap and no StakeCap \u2014 only what these",
+      "verifications created \u2014 so mainnet testing never signs with a key that governs anything.",
+      "An earlier attempt picked an address by reading the chain (zero SUI, zero objects) and it was",
+      "still spoken for: on-chain emptiness cannot tell you whether somebody has plans for an address."
+    ],
+    "address": "0xcca238b159706d73736852e4b7b8975b43a28928aadd272bb32c3ece6934deb7",
+    "keystoreAlias": "tw13",
+    "fundedSui": 4,
+    "handle": "px_verify",
+    "socialAccount": "0xc338bd364a1e027e4087b871a07dbc3716411031024c1ff1eaad0334cec79635",
+    "creatorVault": "0x37ab416cf8f0c99bf08e95595f982e4ed6b0726ce07dbe0768b64b9cd3c06e88",
+    "creatorCap": "0xf4da2f6eba892049c8b0b5d0449a3479fb243a214e42a2fc0602ee510288664f",
+    "coinType": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+    "txs": {
+      "openAccount": "EeGGjTaQiZovabzKrhYbzPiiJqgNUu3CzsKYSb56tJtx",
+      "openVault": "G4k4Nk5GBxCiY6sAUwkRveHtYN5NAtwn64N84tfWJRf2",
+      "addTier": "HsyCVo63avmVLuiy49j71FepFVWp8rfKHHpdWJYqMnt6",
+      "openStakeVault": "ER6kjwT4Msi25WMwCCreYD3ZvaCwaQdtpEhwSLiDbmSF",
+      "deposit1Sui": "8bmjaCDeer4k2XnszZyBGMC5b88zMtnbnPCduAGRL3Ux",
+      "withdrawHalf": "DyrpPhK81x4usvtz7xQf99Cupxm7z1c3dXBi5KMjiQMv",
+      "setRebate20pc": "Crh9SDkE9ZSR5vmqKq2ZVB7K9GWB2BbPSp9iLJTvvmrk"
+    },
+    "gasSpentMist": 12514568,
+    "verifiedOnChain": {
+      "_comment": "Read back from the registry and the vault object, not copied from transaction output.",
+      "readAt": "2026-08-15",
+      "handleResolves": true,
+      "vaultAccepting": true,
+      "tiers": [
+        {
+          "name": "Monthly",
+          "priceUsdc": "5.00",
+          "periodDays": 30,
+          "active": true
+        }
+      ],
+      "feeBpsSnapshot": 290
+    },
+    "howItWasSigned": [
+      "The application prepared and simulated each transaction; the Sui CLI signed the returned bytes,",
+      "because that is where the key lives; the application submitted the same bytes unchanged.",
+      "Only the middle step is not ours, and it is the step a user's wallet performs \u2014 so what is",
+      "proven is that the app builds transactions a real signer accepts and submits what it simulated."
+    ],
+    "stakeVault": "0x473959afa73974fa2c0787ca4e58c0f2741ff260ab7e5004a726f65b991e395d",
+    "stakeCap": "0x127235b74cda8e1deef3a896efc6fa239c97cd171cbe905637524e90dba7f855",
+    "stakeLegProof": {
+      "_comment": [
+        "The no-loss guarantee, exercised rather than asserted. Deposited 1 SUI, withdrew 0.5, and the",
+        "position and vault totals both read 0.5 afterwards with the solvency invariant still holding.",
+        "No waiting period, no operator action, no approval step \u2014 the withdrawal settled in one",
+        "transaction like any other."
+      ],
+      "depositedSui": 1,
+      "withdrewSui": 0.5,
+      "principalAfterSui": 0.5,
+      "solventAfter": true,
+      "rebateBps": 2000,
+      "validator": "OKXEarn"
+    }
+  },
+  "creatorEarningsProof": {
+    "_comment": [
+      "claim_earnings executed on the publisher's own vault, to the publisher's own address, so no",
+      "value left their control. A part rather than the whole, so the vault keeps a balance for",
+      "future demonstrations."
+    ],
+    "tx": "6ymuL6mRNrgRk9HDqN9XCXppCDnenPro63JWjzrDhey1",
+    "claimedUsdc": "0.1",
+    "earningsBeforeUsdc": "0.5826",
+    "earningsAfterUsdc": "0.4826",
+    "grossVolumeUnchangedUsdc": "0.6",
+    "note": "Gross volume is cumulative and does not move when earnings are withdrawn \u2014 the two are different figures, which is why the UI never sums them."
+  }
+}

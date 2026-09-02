@@ -1,0 +1,12 @@
+[package]
+name = "projectx_social_specs"
+edition = "2024.beta"
+version = "0.0.1"
+license = "BUSL-1.1"
+
+[dependencies]
+projectx_social = { local = ".." }
+Prover = { git = "https://github.com/asymptotic-code/sui-prover.git", subdir = "packages/prover", rev = "main" }
+
+[addresses]
+projectx_social_specs = "0x0"

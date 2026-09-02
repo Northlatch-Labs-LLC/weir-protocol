@@ -1,0 +1,40 @@
+{
+  "name": "@projectx-social/signer",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "comment": "exports points at TypeScript source rather than dist, matching @projectx-social/agent and @projectx-social/mcp. There is no tsconfig.build.json here yet, so naming a dist entry point would name a directory nothing produces. Note the dependency list: @mysten/sui, the workspace SDK and the workspace policy evaluator, and nothing else. There is deliberately no cloud KMS SDK \u2014 see src/kms.ts, which fixes the interface without taking the dependency.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@mysten/sui": "2.27.1",
+    "@projectx-social/policy": "workspace:*",
+    "@projectx-social/sdk": "workspace:*"
+  },
+  "devDependencyComment": "@mysten/seal is a DEV dependency and must stay one. No file under src/ imports it, and none should: this package produces signatures and Seal reads content. It is here for test/custody-compat.test.ts alone, which answers by execution whether Seal's SessionKey accepts a multisig or secp256r1 signer \u2014 because if it does not, MultiSigSigner cannot be the custody floor and a multisig agent could pay for content it then could not read. The version is pinned to the one the rest of the workspace runs; a test that answers that question against a different version answers nothing.",
+  "devDependencies": {
+    "@mysten/seal": "1.4.6",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./dist/index.d.ts"
+}

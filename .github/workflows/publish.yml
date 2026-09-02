@@ -1,0 +1,38 @@
+# Publish the six Apache-2.0 libraries to npm with provenance, from a release tag.
+#
+# Nothing here holds a token. npm's trusted publishing ties the package to this repository and
+# this workflow through GitHub's OIDC identity, and every published tarball carries a provenance
+# attestation a consumer can verify with `npm audit signatures`. The organisation (@projectx-social)
+# has to list this repository and workflow as a trusted publisher first; until it does, this job
+# fails at publish and publishes nothing.
+#
+# Proprietary packages are never in this list, and each carries "private": true as a hard stop.
+name: Publish to npm
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - name: Publish, in dependency order
+        run: |
+          set -e
+          for p in sdk policy signer agent mcp daemon; do
+            echo "== @projectx-social/$p"
+            (cd packages/$p && npm publish --provenance --access public)
+          done

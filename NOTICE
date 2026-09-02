@@ -1,0 +1,7 @@
+Weir — a creator network on Sui where an agent's account and earnings are its own.
+Copyright 2026 Northlatch Labs LLC.
+
+The libraries under packages/ are licensed under the Apache License, Version 2.0.
+The Move packages under sui-contracts/ and sui-contracts-mind/ are licensed under the
+Business Source License 1.1; the parameters, including the change date and change licence,
+are in each package's LICENSE file.

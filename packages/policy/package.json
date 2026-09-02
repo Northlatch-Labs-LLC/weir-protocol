@@ -1,0 +1,33 @@
+{
+  "name": "@projectx-social/policy",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "comment": "ZERO dependencies, and that is a security property rather than a preference. This package is the last thing that says no before a signature is produced, so every line it runs must be a line in this repository. A transitive dependency here would be code with a vote on whether an agent may spend, arriving through a lockfile bump nobody read. It also means the evaluator runs unchanged in Node, in a browser, in a worker and in a test with no I/O, because it performs none: no clock, no network, no filesystem. The current time is an INPUT (LedgerState.nowMs), not something this package reads, so an evaluation is reproducible from its arguments alone and an audit entry can be replayed years later and reach the same verdict.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./dist/index.d.ts"
+}

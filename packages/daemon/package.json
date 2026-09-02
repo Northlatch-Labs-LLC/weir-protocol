@@ -1,0 +1,27 @@
+{
+  "name": "@projectx-social/daemon",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:chain": "vitest run --config vitest.chain.config.ts",
+    "start": "tsx src/main.ts",
+    "dry-run": "tsx src/main.ts --once --dry-run",
+    "status": "tsx src/status-main.ts",
+    "journal": "tsx src/journal-main.ts",
+    "test:db": "vitest run --config vitest.db.config.ts",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@mysten/sui": "2.27.1",
+    "@projectx-social/policy": "workspace:*",
+    "@projectx-social/sdk": "workspace:*",
+    "@projectx-social/signer": "workspace:*",
+    "pg": "8.23.0"
+  },
+  "devDependencies": {
+    "@types/pg": "8.23.1"
+  }
+}

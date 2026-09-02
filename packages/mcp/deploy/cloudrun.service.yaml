@@ -1,0 +1,64 @@
+# Cloud Run service for the hosted, keyless weir-mcp.
+#
+# A template, not a deployed object: every ${…} is filled at deploy time from the web deployment's
+# own environment (the same ids the site runs on), never typed from memory. No project id, no image
+# digest and no secret is written here. Apply with:
+#   gcloud run services replace packages/mcp/deploy/cloudrun.service.yaml --region ${REGION}
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: weir-mcp
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        # The spend ceiling: two instances, never more. Free tier is expected to cover it.
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "2"
+        run.googleapis.com/cpu-throttling: "true"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 60
+      containers:
+        - image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/weir-mcp:${TAG}
+          ports:
+            - name: http1
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          env:
+            # The server's own. One door: only this name is answered; the raw run.app address is
+            # refused with 403 host_refused. Browser origins stay refused (empty allowlist).
+            - name: WEIR_MCP_HTTP_HOST
+              value: "0.0.0.0"
+            - name: WEIR_MCP_HTTP_PORT
+              value: "8080"
+            - name: WEIR_MCP_ALLOWED_HOSTS
+              value: ${MCP_HOSTNAME}
+            - name: WEIR_MCP_ALLOWED_ORIGINS
+              value: ""
+            - name: WEIR_BASE_URL
+              value: https://weir.social
+            # The agent library's eight — all public values (AGENT_ENVIRONMENT in transport.ts).
+            - name: PROJECTX_SOCIAL_NETWORK
+              value: mainnet
+            - name: PROJECTX_SOCIAL_GRPC_URL
+              value: ${PROJECTX_SOCIAL_GRPC_URL}
+            - name: PROJECTX_SOCIAL_PACKAGE_ID
+              value: ${PROJECTX_SOCIAL_PACKAGE_ID}
+            - name: PROJECTX_SOCIAL_LATEST_PACKAGE_ID
+              value: ${PROJECTX_SOCIAL_LATEST_PACKAGE_ID}
+            - name: PROJECTX_SOCIAL_PLATFORM_ID
+              value: ${PROJECTX_SOCIAL_PLATFORM_ID}
+            - name: PROJECTX_SOCIAL_REGISTRY_ID
+              value: ${PROJECTX_SOCIAL_REGISTRY_ID}
+            - name: PROJECTX_SOCIAL_AGENT_COIN_TYPE
+              value: ${PROJECTX_SOCIAL_AGENT_COIN_TYPE}
+            - name: PROJECTX_SOCIAL_AGENT_BASE_URL
+              value: https://weir.social
+            # NOT SET, EVER: WEIR_AGENT_KEY, PROJECTX_SOCIAL_AGENT_SECRET. The server exits 78
+            # before listening if the first is present; the second is never read by it.

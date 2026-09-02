@@ -1,0 +1,63 @@
+[package]
+name = "projectx_social"
+edition = "2024"
+version = "1.0.0"
+license = "BUSL-1.1"
+
+# ProjectX Social — the economic backbone of the ProjectX social platform.
+#
+# A deliberate clean break from BOTH existing lineages, for reasons that are concrete rather
+# than stylistic:
+#
+#   * `projectx::usdc_prize_factory` (live, mainnet) compiles Switchboard in. That pins the Sui
+#     framework to a revision DeepBook, SuiNS and Pyth all refuse, and it cannot be removed
+#     without redeploying. Depending on it would inherit that pin permanently.
+#
+#   * `projectx_protocol` (V1.1.1) is unpublished, so it cannot be depended on at all — and
+#     publishing it in order to depend on it would settle an unrelated open question about vault
+#     custody as a side effect.
+#
+# This package therefore depends on NO third-party Move package and NO other ProjectX package.
+# That is why there are no `override = true` dependency pins below: the framework conflict those
+# solve is caused by third-party vendors disagreeing about the framework revision, and with zero
+# vendors there is nothing to disagree. The Sui framework is auto-injected by the toolchain and
+# pinned in Move.lock.
+#
+# Integration with the vault line (routing creator earnings into a Lottery or Charity vault) is
+# deliberately left to a future adapter package that depends on both. Adapters can be redeployed;
+# a dependency compiled into this package could not.
+
+[dependencies]
+# `sui_system` (0x3) must be declared explicitly. Only MoveStdlib and Sui are genuinely injected.
+#
+# ⚠️ DO NOT REMOVE THIS ON THE STRENGTH OF THE CLI's OWN ADVICE. Sui 1.77.2 prints, when you
+# declare it:
+#
+#     [NOTE] Dependencies on Sui, MoveStdlib, Bridge, DeepBook, and SuiSystem are automatically
+#            added, but this feature is disabled for your package because you have explicitly
+#            included dependencies on SuiSystem. Consider removing these dependencies.
+#
+# That note is wrong for SuiSystem, and it was followed once here before being measured. With this
+# line deleted, `sui move build --force` reports only:
+#
+#     INCLUDING DEPENDENCY MoveStdlib
+#     INCLUDING DEPENDENCY Sui
+#
+# and the build fails with `address 'sui_system' is not assigned a value`. The named address is
+# never bound. The sibling vault package's manifest says the same thing and is correct.
+#
+# ⚠️ The `rev` is a COMMIT, not the `framework/mainnet` branch every example shows. A moving branch
+# can resolve a *different* revision of the same 0x2 framework than the one the toolchain injects,
+# and the build then refuses with two versions of Sui. The sibling package solved that with
+# `override = true` on three dependencies; pinning to the identical commit the toolchain already
+# resolves needs no overrides, because there is nothing to arbitrate.
+#
+# To bump after a toolchain upgrade: read the commit from `[pinned.mainnet.Sui]` in Move.lock, set
+# it here, rebuild, re-run the tests. `scripts/check-framework-pin.sh` fails if the two drift apart.
+SuiSystem = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-system", rev = "d50b78880fdacb1bbde92e6974ed71a7650c1090" }
+
+[addresses]
+projectx_social = "0x0"
+
+[dev-addresses]
+projectx_social = "0x50C1A1"

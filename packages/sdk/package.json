@@ -1,0 +1,32 @@
+{
+  "name": "@projectx-social/sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:chain": "vitest run --config vitest.chain.config.ts",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/write-sdk-fingerprint.mjs",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@mysten/sui": "2.27.1",
+    "@noble/ciphers": "2.4.0",
+    "@noble/curves": "2.4.0",
+    "@noble/hashes": "2.4.0"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}

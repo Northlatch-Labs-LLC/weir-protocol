@@ -1,0 +1,39 @@
+{
+  "name": "@projectx-social/agent",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "comment": "exports points at TypeScript source, not dist, and that is deliberate for now. There is no tsconfig.build.json in this package yet, so declaring a dist entry point would name a directory nothing produces \u2014 a package.json that resolves to nothing is worse than one that resolves to source. In-repo consumers run tsx or vitest and read TypeScript directly. Add tsconfig.build.json, a build script and a dist entry before this is published anywhere outside the workspace.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify": "tsx scripts/verify-agent.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@mysten/seal": "1.4.6",
+    "@mysten/sui": "2.27.1",
+    "@projectx-social/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./dist/index.d.ts"
+}

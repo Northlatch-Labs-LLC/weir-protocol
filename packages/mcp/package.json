@@ -1,0 +1,51 @@
+{
+  "name": "@projectx-social/mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "comment": "exports points at TypeScript source rather than dist, matching @projectx-social/agent. There is no tsconfig.build.json here yet, so naming a dist entry point would name a directory nothing produces. In-repo consumers run tsx. Add a build before this is published outside the workspace. Note also that there is deliberately no bin entry: a bin pointing at a .ts file is not executable, and a bin pointing at a dist that does not exist is worse, so the launch surface is the two scripts below until there is a build.",
+  "dependencyComment": "@modelcontextprotocol/sdk, zod and @mysten/sui are pinned EXACT with no caret. A caret on the dependency that defines your wire protocol is how this estate lost a night of test claims to node_modules holding @mysten/seal 1.4.4 while the lockfile said 1.4.5. See the README section 'Pinned SDK' for which version and why. @projectx-social/signer and @projectx-social/policy are the enforcement layer for every spending ceiling -- the signer holds the key, the policy holds the principal's standing authority -- and this package registers NO tool that spends or writes unless both are bound (capabilitiesOf, src/transport.ts). They are imported dynamically rather than statically, and that stays true after they land: a keyless hosted deployment has no business loading a signing library into its address space at all. Absence of either is a supported state that produces a smaller tool list, never a crash. NOTE: pnpm install has NOT been run since these two lines were added, so packages/mcp/node_modules does not yet link them and the dynamic import will report them absent until it is.",
+  "peerDependencyComment": "@projectx-social/signer and @projectx-social/policy are the enforcement layer for every spending ceiling: the signer holds the key and the policy holds the principal's standing authority, and this package registers NO tool that spends or writes unless both are bound (see capabilitiesOf in src/transport.ts). They are declared as OPTIONAL PEERS rather than as dependencies for one reason, and it is a concurrency reason rather than a design one: both packages are being written right now and do not yet exist in this workspace, and a `workspace:*` entry in `dependencies` pointing at a package that does not exist fails `pnpm install` for the whole repository, which would stop every other agent working in it. Move them into `dependencies` the moment those packages land \u2014 that is the correct final home, and this note is the record of why they are not there yet.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "stdio": "tsx src/index.ts --stdio",
+    "http": "tsx src/index.ts --http",
+    "canary": "tsx test/injection-canary.ts",
+    "transport": "tsx test/transport-http.ts",
+    "keys": "tsx test/key-refusal.ts",
+    "check": "tsc --noEmit && tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/hosting-artifacts.ts && tsx test/price-tool.ts",
+    "test": "tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/hosting-artifacts.ts && tsx test/agent-binding.ts && tsx test/agent-port.ts && tsx test/policy-doc.ts && tsx test/ledger-never-evicts-in-flight.ts && tsx test/price-tool.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "tsc -p tsconfig.build.json",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@mysten/sui": "2.27.1",
+    "@projectx-social/agent": "workspace:*",
+    "@projectx-social/policy": "workspace:*",
+    "@projectx-social/signer": "workspace:*",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "bin": {
+      "weir-mcp": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts"
+}
