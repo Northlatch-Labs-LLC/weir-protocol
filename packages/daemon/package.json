@@ -1,8 +1,22 @@
 {
   "name": "@projectx-social/daemon",
   "version": "1.0.0",
-  "type": "module",
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "weir-harvest": "./dist/main.js",
+    "weir-harvest-status": "./dist/status-main.js",
+    "weir-harvest-journal": "./dist/journal-main.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -23,5 +37,6 @@
   },
   "devDependencies": {
     "@types/pg": "8.23.1"
-  }
+  },
+  "type": "module"
 }

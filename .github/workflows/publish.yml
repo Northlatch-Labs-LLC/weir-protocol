@@ -17,9 +17,13 @@
 # should lose the token when that is configured. The provenance attestation is produced either
 # way, from this workflow's GitHub identity.
 #
-# `@projectx-social/daemon` is deliberately absent. It declares no `main`, no `exports`, no `bin`
-# and no `files`: published as it stands it would be an unusable package carrying whatever happened
-# to be in its directory. It ships when it has an entry point, not before.
+# All six libraries are published. `@projectx-social/daemon` was dropped from an earlier release
+# because it declared no entry points and would have shipped an empty shell — a defect in its
+# manifest, never in its code, which was complete and tested throughout. It now declares `exports`,
+# `types`, three `bin` commands and a `files` list, and emits declarations like every other package.
+#
+# Dropping it was also not a call to make alone: the licence ruling named six libraries, and a
+# package that cannot ship as ruled is a decision to bring back, not one to take.
 name: Publish to npm
 
 on:
@@ -47,7 +51,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/tarballs
-          for p in sdk policy signer agent mcp; do
+          for p in sdk policy signer agent mcp daemon; do
             (cd "packages/$p" && pnpm pack --pack-destination /tmp/tarballs)
           done
           ls -la /tmp/tarballs
@@ -67,7 +71,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.KAELASECRET }}
         run: |
           set -euo pipefail
-          for p in sdk policy signer agent mcp; do
+          for p in sdk policy signer agent mcp daemon; do
             f=$(ls /tmp/tarballs/projectx-social-$p-*.tgz)
             echo "== publishing $f"
             npm publish "$f" --provenance --access public
