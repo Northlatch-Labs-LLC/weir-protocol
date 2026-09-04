@@ -10,6 +10,17 @@ Where the two disagree, `weir` is right and this file should say why.
 
 ---
 
+## 2026-09-04 · This file's convention, corrected going forward
+
+Every entry below stands as written; this file is superseded, never edited. A sweep of every
+repository the company publishes found no key or secret here, and found that entries in this
+public file quoted a decision word for word and named the paths of internal documents. Neither
+belongs in a public repository's record of what changed and why. Going forward, an entry here says
+that a decision was made and by whom in role terms, never quotes it, and never names an internal
+path; the private source repository keeps the fuller record. The earlier wording remains in this
+repository's history and is accepted as it is: it contains no secret, and rewriting public
+history is not done here.
+
 ## 2026-09-03 · Branch `truth/weir-protocol-readme` staged, unmerged — the Master's truth-pass order
 
 **Who:** engineering agent on the chief technology officer's dispatch, under the Master's order
