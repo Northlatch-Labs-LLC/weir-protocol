@@ -30,8 +30,9 @@ old transport does not degrade — it stops.
 
 ## Configuration
 
-No defaults. Copy `.env.example`, which carries the live mainnet ids. An unset variable makes
-`loadConfig` return a failure naming it, rather than resolving to a deployment nobody chose.
+No defaults. The live mainnet ids are in `sui-contracts/deploy/mainnet.json` in the public
+repository; set each variable explicitly. An unset variable makes `loadConfig` return a failure
+naming it, rather than resolving to a deployment nobody chose.
 
 ## Money
 
@@ -44,8 +45,8 @@ assumed; assuming 9 for a 6-decimal coin is wrong by a factor of a thousand.
 
 | Command | What it covers |
 |---|---|
-| `pnpm test` | 61 unit tests. No network. |
-| `pnpm test:chain` | 8 tests against the live mainnet deployment. |
+| `pnpm test` | Unit tests, no network. Run it against this tree for the current count. |
+| `pnpm test:chain` | Tests against the live mainnet deployment. Run it against this tree for the current count. |
 | `pnpm typecheck` | `tsc --noEmit`, strict, `noUncheckedIndexedAccess`. |
 
 `test/drift.test.ts` is the one to understand. It reads the `.move` sources directly and asserts

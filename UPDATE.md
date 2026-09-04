@@ -31,6 +31,49 @@ engineering hand-off); rows 238–249 of the CSV beside it.
   merged — none yet", since no contributor has been paid to date.
 
 **Claims changed: 3.** Unmerged. Nothing pushed, committed or deployed.
+## 2026-09-03 · Branch `truth/npm-readmes` staged, unmerged — the Master's truth-pass order
+
+**Who:** engineering agent on the chief technology officer's dispatch, under the Master's order
+2026-09-03 ("present that we are less and be more, than present more and be less") · **Where:**
+branch `truth/npm-readmes`, created from `main` at `90ee7a6` in a linked worktree
+(`.wt-weir-protocol-npm-readmes`, never pushed) · **Ref:**
+`work/reports/2026-09-03-product-truth-pass-claim-ledger.md` §6–§7; rows 250–273 of the CSV
+beside it.
+
+The six package READMEs, staged with `git add`, not committed:
+
+- `packages/sdk/README.md` — dropped `.env.example` (not in the published tarball) in favour of
+  `sui-contracts/deploy/mainnet.json` in the public repository (row 250); dropped the ageing
+  `61 unit` / `8 chain` test counts in favour of "run it against this tree" (row 251).
+- `packages/agent/README.md` — the H1 title now leads the file, the Built-by/Co-authored-by
+  comment follows it, so the npm registry `description` no longer renders as that comment (row
+  253; `package.json` also given an explicit `description` field for the same reason); the
+  08-31 platform read is marked "at that time" (row 254); "Nothing was executed on chain" is
+  corrected to name the 1 September 2026 buyer read from `weir/UPDATE.md` (row 255).
+  `src/mind.ts:28`'s "(roadmap B22)" comment now says the rotation method "is not built" (row 256).
+- `packages/mcp/README.md` — titled with the package name `@projectx-social/mcp`, not `weir-mcp`
+  (row 257); the "distribution strategy" paragraph is cut to the plain mechanism, keeping the
+  "nine lines" fact (row 258); the ceiling-path status note is dated and de-alarmed from a
+  red-circle status board to plain prose (row 259); "Hosted keyless mode cannot bind the agent at
+  all" is replaced with what the hosted build at `mcp.weir.social` actually registers today — six
+  read tools (row 260); "Nothing has been run against live weir" is replaced with the dated
+  1 September 2026 demonstration read (row 261); the 27/27 and 17/17 script counts are labelled a
+  dated run, with today's aggregate (all eleven scripts, 0 failed) beside them (row 262).
+- `packages/signer/README.md` — "This desk previously wrote" (internal voice) becomes "An earlier
+  version of this document said" (row 264).
+- `packages/policy/README.md` — "29 SUI" vault-creation fee (stale; read 0 SUI today) becomes "the
+  fee is read from the Platform object (0 SUI on 3 September 2026)" (row 267).
+- `packages/daemon/README.md` — the systemd/launchd unit-file paragraph is corrected: those files
+  are not shipped in this package, and the live daemon runs as a GCP container (row 272); the
+  15 August package id is marked superseded, with the current lineage named (row 270); the
+  101-unit/18-journal/fourteen-mutation counts are dropped in favour of "run it yourself" plus
+  today's gate figure, 97/97 (row 271).
+
+**Claims changed: 17.** No engineering re-verification was performed beyond what this laptop's
+3 September 2026 gate already recorded (see the sibling entry on `main`/`truth/weir-protocol-readme`
+for that gate's full output); status-board items that would need a fresh code run to resolve
+(rather than a copy fix) were dated and reworded, never marked resolved without evidence.
+Unmerged. Nothing pushed, committed or deployed.
 
 ---
 

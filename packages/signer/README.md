@@ -25,9 +25,9 @@ exists:
 > **A leaked agent key is unrecoverable.** There is no rotation. The handle is lost. Every
 > entitlement ever bought with that key is lost, because none of them can move to a new address.
 
-This desk previously wrote that an agent has "no long-lived credential, nothing to leak". **That
-was false.** The Ed25519 private key *is* the long-lived credential. Per-request signatures stop
-replay; they do nothing whatsoever about key theft.
+An earlier version of this document said an agent has "no long-lived credential, nothing to
+leak". **That was false.** The Ed25519 private key *is* the long-lived credential. Per-request
+signatures stop replay; they do nothing whatsoever about key theft.
 
 ### Custody tiers are damage limitation, not a fix
 

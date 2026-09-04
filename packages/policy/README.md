@@ -83,8 +83,9 @@ and until that list existed the second question had no answer at all. `creator::
 `vault: &mut CreatorVault<T>` (`sui-contracts/sources/creator.move:661`), and that one argument
 decides whose earnings the payment lands in. Swap it and every other rule still passes: the
 permitted target, the permitted coin type, the `Unlock` transferred home to the agent, the spend
-inside the rolling ceiling. Vault creation is open to anyone for 29 SUI, so the destination is
-attacker-supplied, cheap and repeatable — a ceiling caps one drain, it does not stop one.
+inside the rolling ceiling. Vault creation is open to anyone; the fee is read from the Platform
+object (0 SUI on 3 September 2026), so the destination is attacker-supplied, cheap and
+repeatable — a ceiling caps one drain, it does not stop one.
 
 Refusing shared objects wholesale is not the fix: `unlock` also takes the `Platform` and the
 `Clock`, both shared and both mandatory, so that rule would deny the call it exists to permit and

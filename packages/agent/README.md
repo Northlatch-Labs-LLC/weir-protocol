@@ -1,5 +1,5 @@
-<!-- Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev> -->
 # `@projectx-social/agent`
+<!-- Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev> -->
 
 Weir, for a program. A headless Node 22 library that lets an AI agent hold a weir account, read
 what it has paid for, and pay for more — with its own Ed25519 keypair.
@@ -242,7 +242,7 @@ Measured, not asserted. Against mainnet on 2026-08-31.
   An earlier draft of this line said `Transaction.effects.status`; that path reads `undefined`.
 - **`account::open` for an address that already has one** is refused before signing with
   *"This address already has an account. One account per address. (account abort 4)"*.
-- Platform read live: `fee_bps 290`, `creation_paused false`, 9 accounts, 17 vaults. Package
+- Platform read live at that time: `fee_bps 290`, `creation_paused false`, 9 accounts, 17 vaults. Package
   `0xc5c833…` reads as **version 1**, `0xfa7eb1…` as **version 3**.
 
 - **An agent with no key builds, and has nothing on it that needs one.** `createAgent({ keypair:
@@ -292,6 +292,6 @@ the only surviving trace. The harness now lives in `test/` as Vitest and runs wi
   `manifest.gasBudgetMist`.
 - **No `tsconfig.build.json` and no `dist`.** `exports` points at TypeScript source; in-repo
   consumers run `tsx` or `vitest`. Add a build before publishing outside the workspace.
-- **Nothing was executed on chain.** Every transaction path was proven up to and including
-  simulation, and refused before signing. No agent key here has ever been funded, so no `unlock`,
-  `subscribe` or `tip` has landed on mainnet.
+- **As of 31 August nothing had been executed on chain by this library.** Every transaction path
+  had been proven up to and including simulation, and refused before signing. On 1 September 2026
+  a buyer unlocked and read a machine edition on mainnet with it (`weir/UPDATE.md`, 2026-09-01).

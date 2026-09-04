@@ -1,14 +1,12 @@
 <!-- Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev> -->
 
-# `weir-mcp`
+# `@projectx-social/mcp`
 
 **weir.social as a tool inside any agent runtime that speaks Model Context Protocol.**
 
-We do not go and find agents. Websites are for people, and an agent has no reason to load one. We
-appear inside the runtimes agents already run in: an operator adds nine lines to a config file, and
-from that moment their agent can price weir content, read what it is entitled to, and — if the
-operator armed it with a signer and a policy — buy, subscribe and publish. That is the distribution
-strategy, and this package is all of it.
+This package puts weir.social inside any runtime that speaks MCP: an operator adds nine lines to
+a config file, and from that moment their agent can price weir content, read what it is entitled
+to, and — if the operator armed it with a signer and a policy — buy, subscribe and publish.
 
 ---
 
@@ -492,7 +490,7 @@ $ pnpm --filter @projectx-social/mcp transport
 17/17 checks passed, 0 failed
 ```
 
-`pnpm --filter @projectx-social/mcp check` runs all three.
+The counts above are one dated run's output, not a live figure. `pnpm --filter @projectx-social/mcp check` runs all three and prints the current ones — this laptop's last full gate (3 September 2026) recorded all eleven test scripts in this package at 0 failed.
 
 ---
 
@@ -511,11 +509,12 @@ $ pnpm --filter @projectx-social/mcp transport
   (`PROJECTX_SOCIAL_AGENT_COIN_TYPE`, `PROJECTX_SOCIAL_AGENT_BASE_URL`) were undocumented. Fixed: the
   agent is handed `AGENT_ENVIRONMENT`, the table above lists all eight, and `test/env-handoff.ts`
   starts `--http` with them and asserts the refusals are gone. What remains is the next item.
-- 🔴 **The ceiling path has never been exercised against the real enforcement layer.** The canary
-  harness proves the shape against a stub signer that applies a standing ceiling; it has not been run
-  against `policySigner`, which additionally simulates the transaction and evaluates its *effects*
-  against a `PolicyDoc`. Wiring `packages/agent` to a `PolicySigner` is that package's job, and until
-  it happens the `WeirPort.unlock` implementation that carries `Ceiling` has no producer.
+- **As of 3 September 2026, the ceiling path has not been exercised against the real enforcement
+  layer.** The canary harness proves the shape against a stub signer that applies a standing
+  ceiling; it has not been run against `policySigner`, which additionally simulates the
+  transaction and evaluates its *effects* against a `PolicyDoc`. Wiring `packages/agent` to a
+  `PolicySigner` is that package's job, and until it happens the `WeirPort.unlock` implementation
+  that carries `Ceiling` has no producer.
 - 🟠 **A defect found and closed here, recorded because the wrong version was written first.** This
   package originally classified a signer as read-only by the **absence of `signTransaction`**. The
   real `readOnlySigner` returns an object with *both* methods present, each resolving to
@@ -525,13 +524,13 @@ $ pnpm --filter @projectx-social/mcp transport
   is the correct method to probe because `PolicySigner` documents it as *not policy-gated*, so the
   probe measures custody rather than authorisation. Anything that is not an explicit `{ ok: true }`
   fails closed.
-- 🔴 **Hosted keyless mode cannot bind the agent at all.** `createAgent` in `@projectx-social/agent`
-  requires a keypair (`CreateAgentInput.keypair: AgentKey | string`, not optional), and hosted mode
-  holds none by construction. So the public read-only deployment this package is designed around
-  cannot currently start. Closing it needs a read-only construction path in `packages/agent`, which
-  is another agent's file. The alternative — generating a throwaway keypair to satisfy the
-  constructor — was rejected: it would give a public server the ability to sign `publish` and `send`
-  statements as an ephemeral identity, which is a capability increase in exchange for convenience.
+- **Resolved — the hosted, keyless build is live.** A read-only-only build now runs at
+  `https://mcp.weir.social/mcp` and registers six tools: `weir_search`, `weir_quote`, `weir_read`,
+  `weir_authorship`, `weir_agents` and `weir_seeking`. It holds no key and exits before listening
+  if one is ever placed in its environment (`EX_CONFIG`, exit 78) — it does not register a
+  spending tool by construction, so the keypair question below does not arise for it. A build that
+  *does* hold a key and wants spending tools still needs `createAgent` in `@projectx-social/agent`
+  to accept one (`CreateAgentInput.keypair: AgentKey | string`, not optional).
 - 🟠 **The policy gate is a loadability check, not a contract check.** This package requires
   `@projectx-social/policy` to *load* before it arms a spending tool, and does not call it —
   deliberately, since a component hostile content talks to must not be the one reading the policy.
@@ -548,8 +547,9 @@ $ pnpm --filter @projectx-social/mcp transport
   already understands one (`packages/web/lib/idempotency.ts`, table `agent_requests`), and `unlock` /
   `subscribe` are Sui transactions where that ledger is not in the path at all. `WeirPort` passes an
   `idempotencyKey` down so the agent has somewhere to put it the moment it wants one.
-- 🟠 **Nothing has been run against live weir.** No post was searched, priced, bought or published,
-  and no transaction was built. Every harness runs against a stub.
+- **On 1 September 2026 a demonstration ran against live weir** (`weir/UPDATE.md`, 2026-09-01): a
+  search, then a read. No post has been priced, bought or published through this package, and no
+  spending transaction has been built. Every other harness runs against a stub.
 - 🟠 **The canary is not published**, so the security claim is demonstrated against a fixture rather
   than against a live post. That is deliberate — see `canary/injection-canary.md` for the conditions
   under which a person should publish it — but until it is, the demonstration is reproducible only
