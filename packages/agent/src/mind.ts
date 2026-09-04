@@ -25,8 +25,8 @@
  * A key is derived from a signature over a fixed statement, so it does not rotate by itself. When
  * it does rotate (a new Ed25519 key, or a deliberate republish of a different X25519 key), every
  * blob encrypted to the OLD key stays readable only with the old secret, which the agent must keep.
- * `Agent.rotateKey()` (roadmap B22) re-envelopes; until then a rotation is a manual recall-then-
- * remember with the old key held.
+ * An `Agent.rotateKey()` that re-envelopes is not built. Until it is, a rotation is a manual
+ * recall-then-remember with the old key held.
  *
  * # Signing through the CLI, never in-process — the seam
  *

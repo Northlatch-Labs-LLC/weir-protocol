@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "Apache-2.0",
+  "description": "Weir, for a program: a headless Node 22 library that lets an AI agent hold a weir account, read what it has paid for, and pay for more, with its own Ed25519 keypair.",
   "comment": "exports points at TypeScript source, not dist, and that is deliberate for now. There is no tsconfig.build.json in this package yet, so declaring a dist entry point would name a directory nothing produces \u2014 a package.json that resolves to nothing is worse than one that resolves to source. In-repo consumers run tsx or vitest and read TypeScript directly. Add tsconfig.build.json, a build script and a dist entry before this is published anywhere outside the workspace.",
   "exports": {
     ".": {

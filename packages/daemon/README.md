@@ -18,10 +18,11 @@ a daemon you cannot run harmlessly is one nobody verifies before pointing it at 
 
 ## Supervise it, do not loop it
 
-The in-process loop exists for watching. In production run `--once` under something that restarts:
-`deploy/projectx-harvest.service` + `.timer` for systemd, `deploy/io.protocolx.harvest.plist` for
-launchd. The supervisor is better at restarting than this process is at not dying, and a crash under
-`--once` costs one tick rather than every future one.
+The in-process loop exists for watching. In production run `--once` under something that
+restarts. Systemd and launchd unit files are not shipped in this package; the live daemon runs
+today as a container on the company's GCP VM (`weir/UPDATE.md`, 2026-09-02). The supervisor is
+better at restarting than this process is at not dying, and a crash under `--once` costs one tick
+rather than every future one.
 
 **Exit codes are the interface with the supervisor.**
 
@@ -79,7 +80,8 @@ file survives the process that wrote it, so a machine that loses power leaves a 
 
 ## Verified
 
-Against mainnet, 15 Aug 2026, package `0xa7fd1540…14d`:
+Against mainnet on 15 August 2026, package `0xa7fd1540…14d` (superseded; the deployment has since
+moved through v3, v4 and v5 to `0xdc6dbb96…2884b5` — `weir/UPDATE.md`, 2026-09-02):
 
 - dry run with no key, no journal, no gas — epoch 1220, 1 vault, decided skip
 - live run, journalled, exit 0, recorded `1 seen / 0 harvested / 1 skipped`
@@ -88,6 +90,8 @@ Against mainnet, 15 Aug 2026, package `0xa7fd1540…14d`:
 - `kill -9`: the advisory lock was released by the server, `pg_locks` back to 0
 - a run left `running` was found and reported by the next startup
 
-101 unit tests, 18 journal tests against real Postgres. Fourteen mutations run against the
-supervisor and the journal; twelve killed. The two survivors are documented in place as
-defence-in-depth rather than dressed up with tests that would not have caught anything.
+Unit tests plus journal tests against real Postgres; run `pnpm --filter @projectx-social/daemon
+test` against this tree for the current count (this laptop's last full gate, 3 September 2026,
+recorded 97/97 for this package). Mutations run against the supervisor and the journal; the
+survivors are documented in place as defence-in-depth rather than dressed up with tests that would
+not have caught anything.
