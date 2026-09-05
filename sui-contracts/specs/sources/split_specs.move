@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// Machine-checked proofs of the two pure split functions, for the Sui Prover.
 ///
 /// The property sweeps in `tests/split_property_tests.move` sample 6,000 points; these specs

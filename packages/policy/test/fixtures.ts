@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /**
  * One baseline that every rule permits, and one minimal violation per rule.
  *

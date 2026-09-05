@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /**
  * A tick that cannot open a journal row does not harvest.
  *

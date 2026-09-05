@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /**
  * Reading the amounts a policy compares.
  *

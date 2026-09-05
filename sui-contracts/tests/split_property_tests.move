@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// Adversarial sweeps over the two pure split functions.
 ///
 /// The hand-picked-value tests prove the splits at inputs a person thought of; these prove them

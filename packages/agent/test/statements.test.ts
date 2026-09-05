@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /**
  * The compatibility surface: statement bytes, signatures and the publish digest.
  *

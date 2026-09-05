@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /**
  * Behaviour the mutation test cannot reach: window arithmetic, cumulative spend, canonical
  * hashing input, and the shape of a decision.

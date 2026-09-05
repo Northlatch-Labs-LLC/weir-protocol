@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /**
  * Read-only status. Interrogates the chain and prints what it finds. Signs nothing.
  *

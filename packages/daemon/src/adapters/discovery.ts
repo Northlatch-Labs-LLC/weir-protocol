@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /**
  * Vault discovery: every `StakeVault` the package has ever opened, from its events.
  *

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /** Process entrypoint. Kept separate from index.ts so importing the library runs nothing. */
 import { main } from './index.js';
 

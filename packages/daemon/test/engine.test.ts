@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /**
  * The tick engine, driven entirely by fixtures — no chain, no clock, no network.
  *

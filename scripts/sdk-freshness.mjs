@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 //
 // Rebuild `packages/sdk/dist` before any test runs, unless it was demonstrably built from the
 // `src` that is on disk right now.

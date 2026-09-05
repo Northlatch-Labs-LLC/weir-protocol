@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// Tests for identity — handle rules, one-account-per-address, and referral attribution.
 ///
 /// The soulbound property itself is not tested here and cannot be: there is no function that

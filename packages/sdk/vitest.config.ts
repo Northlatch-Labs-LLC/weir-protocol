@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 import { defineConfig } from 'vitest/config';
 
 // Chain tests are excluded here and run separately via `pnpm test:chain`. They need mainnet and

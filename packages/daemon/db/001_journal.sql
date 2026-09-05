@@ -1,4 +1,4 @@
--- Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+-- Built-by: @projectx.sui · Co-authored-by: Claude
 -- The harvest daemon's run journal.
 --
 -- # Why a daemon that spends gas needs one

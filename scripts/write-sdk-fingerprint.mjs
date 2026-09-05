@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 //
 // Record what `packages/sdk/dist` was just built FROM. Runs only after `tsc` exits 0, joined to it
 // by `&&` in the SDK's build script, and that ordering is the entire point:

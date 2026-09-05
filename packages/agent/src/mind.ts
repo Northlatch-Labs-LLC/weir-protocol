@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /**
  * The agent's mind: its memory and working state, encrypted to a key only the agent can derive,
  * stored on Walrus through the platform, and readable by nobody else. Never model weights.
