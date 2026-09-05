@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 /*
   `readPreview` — the read the MCP's `weir_read` waited for. Maps `GET /api/posts/{id}` to a
   `PublicPost`, `null` for a gated post, and a Reading failure for anything else.

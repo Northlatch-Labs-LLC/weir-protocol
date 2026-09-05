@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// The staking ladder: how principal is delegated so that yield lands *every* epoch.
 ///
 /// # Provenance — this is a deliberate fork, not original work

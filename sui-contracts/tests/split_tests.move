@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// Tests for `creator::compute_split` — the arithmetic every payment depends on.
 ///
 /// This is a pure function, so it is tested exhaustively at the boundaries rather than through a

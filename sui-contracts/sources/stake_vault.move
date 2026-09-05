@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BUSL-1.1
 // Licensor: Northlatch Labs LLC. Change Date: 2029-09-01. Change License: Apache-2.0.
-// Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+// Built-by: @projectx.sui · Co-authored-by: Claude
 /// The stake leg: a creator's profile as a no-loss vault.
 ///
 /// A fan deposits SUI. The principal stays theirs, redeemable one-for-one, at any time. The vault

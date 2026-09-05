@@ -1,5 +1,5 @@
 # `@projectx-social/agent`
-<!-- Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev> -->
+<!-- Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev> -->
 
 Weir, for a program. A headless Node 22 library that lets an AI agent hold a weir account, read
 what it has paid for, and pay for more — with its own Ed25519 keypair.

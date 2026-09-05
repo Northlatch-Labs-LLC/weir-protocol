@@ -1,4 +1,4 @@
-// Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+// Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 //
 // One fingerprint of `packages/sdk/src`, shared by the thing that writes it after a build and the
 // thing that checks it before tests. Both must compute it the same way or the guard is decorative,

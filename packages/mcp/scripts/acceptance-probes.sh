@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Built-by: @projectx.sui /|\ · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
+# Built-by: @projectx.sui · Co-authored-by: Kaela <kaela@projectxprotocol.dev>
 #
 # The seven acceptance probes for a hosted keyless weir-mcp.
 # Run against the DEPLOYED URL before the DNS name is published; every probe prints its real

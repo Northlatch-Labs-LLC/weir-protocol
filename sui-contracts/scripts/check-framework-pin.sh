@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Built-by: @projectx.sui /|\ · Co-authored-by: Claude
+# Built-by: @projectx.sui · Co-authored-by: Claude
 #
 # Verify the explicit SuiSystem pin in Move.toml matches the framework revision the toolchain
 # actually resolves for Sui and MoveStdlib.
