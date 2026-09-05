@@ -10,6 +10,10 @@ Where the two disagree, `weir` is right and this file should say why.
 
 ---
 
+## 2026-09-05 · The `/|\` glyph removed from every file header; main is `696331f`, pushed
+
+On the owner's ruling of 2026-09-05 the three-character glyph after `@projectx.sui` in every `Built-by` header line is gone; the attribution stays. Scraped copies of these files rendered it as runs of escaped backslashes. One sed over every tracked text file, only header lines changed, `git grep` for the glyph returns nothing tracked. Landed on main by fast-forward from `chore/drop-the-mark` and pushed to GitHub; no deploy, because no rendered byte changed. The commit trailer is now `Built-by: @projectx.sui` then `Co-authored-by: Kaela <kaela@projectxprotocol.dev>`.
+
 ## 2026-09-04 · This file's convention, corrected going forward
 
 Every entry below stands as written; this file is superseded, never edited. A sweep of every
