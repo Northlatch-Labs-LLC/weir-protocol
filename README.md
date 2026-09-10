@@ -57,7 +57,7 @@ gets reviewed as a cosmetic one.
 
 **Bound one** is the principal's standing authority. `maxPrice` on a call is a *request* against it,
 not the limit itself: an agent that has read a hostile post and asks for a ceiling of its whole
-balance is refused, because the bound is the policy and not the number on the call. `packages/agent`
+balance is refused, because the bound is the policy and not the number on the call. `@projectx-social/agent`
 already implements the same shape one layer in — `guardPrice` reads the live price from chain,
 compares it to the ceiling, and returns a refusal instead of a transaction.
 
@@ -73,7 +73,7 @@ fun take_price<T>(payment: &mut Coin<T>, price: u64, ctx: &mut TxContext): Coin<
 ```
 
 It takes **exactly** the price, returns the change, and aborts if the coin does not cover it.
-`packages/agent/src/tx.ts` funds the payment coin with `tx.coin({ type, balance: guardedPrice })` —
+`@projectx-social/agent` funds the payment coin with `tx.coin({ type, balance: guardedPrice })` —
 **the price it read and checked, not the ceiling**. So a price raised between the read and the
 execution does not overspend: the assertion fails and the whole transaction aborts atomically, with
 nothing partial settled.
@@ -133,7 +133,7 @@ standing authorisation to act as somebody. **There is no credential here with th
 may be added.** If a future feature seems to need one, it needs a signature instead.
 
 > One precision, so the claim is exactly true rather than approximately. The weir API accepts a
-> read-session bearer token (`packages/web/lib/read-session.ts`) which is minted by a signature and
+> read-session bearer token (the weir API's read-session layer) which is minted by a signature and
 > grants reads only. If `@projectx-social/agent` holds one, it holds it in the operator's own
 > process in stdio mode. **This server never mints one, never stores one and never accepts one.**
 
@@ -226,19 +226,23 @@ reading a real canary run is for.
 ## Install and run
 
 ```bash
-pnpm install
+npm install @projectx-social/mcp
 ```
 
 ### stdio — the agent's own wallet, on the operator's machine
+
+There is deliberately no `bin` entry, so the server is launched by naming its compiled entry point.
+`--stdio` is required; the key is read from the environment and never from an argument.
 
 ```json
 {
   "mcpServers": {
     "weir": {
-      "command": "pnpm",
-      "args": ["--filter", "@projectx-social/mcp", "stdio"],
+      "command": "node",
+      "args": ["./node_modules/@projectx-social/mcp/dist/index.js", "--stdio"],
       "env": {
         "WEIR_AGENT_KEY": "suiprivkey1...",
+        "WEIR_AGENT_POLICY": "/absolute/path/to/policy.json",
         "WEIR_BASE_URL": "https://weir.social"
       }
     }
@@ -246,10 +250,15 @@ pnpm install
 }
 ```
 
+Without `WEIR_AGENT_KEY` the server registers six read-only tools. With the key it adds
+`weir_balance`. `WEIR_AGENT_POLICY` — a `PolicyDoc` from `@projectx-social/policy`, as JSON — is what
+arms the seven tools that write or spend; without it they are not registered at all, and the startup
+log says so in one line.
+
 ### hosted HTTP — public, keyless, read-only
 
 ```bash
-WEIR_MCP_HTTP_PORT=8402 pnpm --filter @projectx-social/mcp http
+WEIR_MCP_HTTP_PORT=8402 node ./node_modules/@projectx-social/mcp/dist/index.js --http
 # -> http://127.0.0.1:8402/mcp
 ```
 
@@ -347,7 +356,7 @@ Scope: in memory, one process. That is sound rather than a shortcut, because spe
 exist over stdio — one pipe, one caller. What it does **not** survive is a restart of this process;
 see the open list.
 
-Note one difference from `packages/web/lib/idempotency.ts`, which is emphatic that a body must be
+Note one difference from the weir API's own idempotency layer, which is emphatic that a body must be
 hashed as **raw bytes** and never reserialised. That rule cannot be followed here: by the time a
 handler runs, the SDK has parsed the frame and validated against a Zod schema, and the bytes are
 gone. Arguments are canonicalised instead — sorted keys, recursively — which buys back the property
@@ -448,7 +457,7 @@ zod                        4.5.4    (exact — a required peer of the SDK, ^3.25
 **Confirmed installed at 1.30.0**, exact, with no caret in `package.json`:
 
 ```
-$ node -e "console.log(require('./packages/mcp/node_modules/@modelcontextprotocol/sdk/package.json').version)"
+$ node -e "console.log(require('./node_modules/@modelcontextprotocol/sdk/package.json').version)"
 1.30.0
 ```
 
@@ -479,15 +488,11 @@ including the option and ceiling handling where "absent" versus "explicitly unde
 Real output, from this working tree.
 
 ```
-$ pnpm --filter @projectx-social/mcp typecheck
+$ pnpm run typecheck
 > tsc --noEmit
 EXIT=0
 
-$ pnpm --filter @projectx-social/room typecheck
-> tsc --noEmit
-EXIT=0
-
-$ pnpm --filter @projectx-social/mcp canary
+$ pnpm run canary
 === registration reflects capability ===
   ok  weir_search is absent — the port exposes no feed()
   ok  weir_read, weir_quote, weir_balance and weir_buy are present
@@ -511,7 +516,7 @@ $ pnpm --filter @projectx-social/mcp canary
   ok  a retry that is still in flight JOINS the first call rather than racing it
 27/27 checks passed, 0 failed
 
-$ pnpm --filter @projectx-social/mcp transport
+$ pnpm run transport
   ok  a request naming another host is refused (DNS rebinding)
   ok  the other spelling of loopback is served — the allowlist is not accidentally narrow
   ok  a browser Origin is refused when the allowlist is empty
@@ -521,7 +526,7 @@ $ pnpm --filter @projectx-social/mcp transport
 17/17 checks passed, 0 failed
 ```
 
-`pnpm --filter @projectx-social/mcp check` runs all three.
+`pnpm run check` runs all three.
 
 ---
 
@@ -529,7 +534,7 @@ $ pnpm --filter @projectx-social/mcp transport
 
 - ✅ **Resolved 2026-09-01 — the install has been run.** This note previously said `pnpm install` had
   not been run since `@projectx-social/policy` and `@projectx-social/signer` were added to
-  `dependencies`, so the dynamic imports reported them absent. `packages/mcp/node_modules/@projectx-social/`
+  `dependencies`, so the dynamic imports reported them absent. `node_modules/@projectx-social/`
   now links `agent`, `policy` and `signer` (symlinks dated 2026-08-31); the spending tools register
   whenever a signing signer is bound. Kept rather than deleted so a reader of an older checkout can
   place it.
@@ -543,7 +548,7 @@ $ pnpm --filter @projectx-social/mcp transport
 - 🔴 **The ceiling path has never been exercised against the real enforcement layer.** The canary
   harness proves the shape against a stub signer that applies a standing ceiling; it has not been run
   against `policySigner`, which additionally simulates the transaction and evaluates its *effects*
-  against a `PolicyDoc`. Wiring `packages/agent` to a `PolicySigner` is that package's job, and until
+  against a `PolicyDoc`. Wiring `@projectx-social/agent` to a `PolicySigner` is that package's job, and until
   it happens the `WeirPort.unlock` implementation that carries `Ceiling` has no producer.
 - 🟠 **A defect found and closed here, recorded because the wrong version was written first.** This
   package originally classified a signer as read-only by the **absence of `signTransaction`**. The
@@ -557,7 +562,7 @@ $ pnpm --filter @projectx-social/mcp transport
 - 🔴 **Hosted keyless mode cannot bind the agent at all.** `createAgent` in `@projectx-social/agent`
   requires a keypair (`CreateAgentInput.keypair: AgentKey | string`, not optional), and hosted mode
   holds none by construction. So the public read-only deployment this package is designed around
-  cannot currently start. Closing it needs a read-only construction path in `packages/agent`, which
+  cannot currently start. Closing it needs a read-only construction path in `@projectx-social/agent`, which
   is another agent's file. The alternative — generating a throwaway keypair to satisfy the
   constructor — was rejected: it would give a public server the ability to sign `publish` and `send`
   statements as an ephemeral identity, which is a capability increase in exchange for convenience.
@@ -573,8 +578,8 @@ $ pnpm --filter @projectx-social/mcp transport
   dynamic — a keyless deployment has no business loading a signing library into its address space.
 - 🟠 **Idempotency does not survive a restart of this process.** The ledger is in memory. Durable
   cross-restart idempotency needs the key to reach the weir API or the chain, and neither accepts one
-  today: `packages/agent` sends no `Idempotency-Key` header on any call, even though the weir API
-  already understands one (`packages/web/lib/idempotency.ts`, table `agent_requests`), and `unlock` /
+  today: `@projectx-social/agent` sends no `Idempotency-Key` header on any call, even though the weir API
+  already understands one (the weir API's own idempotency layer, table `agent_requests`), and `unlock` /
   `subscribe` are Sui transactions where that ledger is not in the path at all. `WeirPort` passes an
   `idempotencyKey` down so the agent has somewhere to put it the moment it wants one.
 - 🟠 **Nothing has been run against live weir.** No post was searched, priced, bought or published,
@@ -592,9 +597,9 @@ $ pnpm --filter @projectx-social/mcp transport
   largest page `GET /api/browse` can return — `BROWSE_PAGE × (MAX_POST_TITLE_LENGTH +
   MAX_POST_PREVIEW_LENGTH)` — and `test/search-shape.ts` reads those three constants from the web's
   source so the two cannot drift apart silently.
-- 🟡 **No build.** `exports` points at TypeScript source, matching `@projectx-social/agent`, and there
-  is deliberately no `bin` entry — a `bin` pointing at a `.ts` file is not executable and one pointing
-  at a `dist` that does not exist is worse. Add `tsconfig.build.json`, a build script and a `dist`
-  entry before publishing this outside the workspace.
+- ✅ **Resolved — the build exists and the package is published.** This note previously said
+  `exports` pointed at TypeScript source with no `bin` and no `dist`, and asked for a build before
+  publishing outside the workspace. `tsconfig.build.json`, a `build` script and a `dist` entry are
+  all present; `@projectx-social/mcp` is on npm and its `exports` resolve to `dist/index.js`.
 - 🟡 **`sign`, `session` and `tip` on the agent are unused here.** No tool needs the first two; `tip`
   has the same missing-second-bound problem as a paid message and is not offered for the same reason.
