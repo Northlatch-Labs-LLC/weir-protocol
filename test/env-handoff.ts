@@ -36,8 +36,8 @@ import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { AGENT_ENVIRONMENT, agentEnvironment } from '../src/transport.js';
-import { AGENT_ENV } from '../../agent/src/manifest.js';
-import { KEY_REGISTRY_ENV, REQUIRED_ENV } from '../../sdk/src/config.js';
+import { AGENT_ENV } from '@projectx-social/agent';
+import { KEY_REGISTRY_ENV, REQUIRED_ENV } from '@projectx-social/sdk';
 
 let checks = 0;
 let failures = 0;
@@ -84,7 +84,7 @@ const STOPS_ON_KEY = "Cannot read properties of null (reading 'address')";
  * green agent package cannot hang this harness; it is reported rather than waited on.
  */
 function start(vars: Record<string, string>): { stderr: string; status: number | null } {
-  const result = spawnSync('pnpm', ['exec', 'tsx', 'src/index.ts', '--http'], {
+  const result = spawnSync('npx', ['tsx', 'src/index.ts', '--http'], {
     cwd: here,
     env: { PATH: process.env['PATH'] ?? '', HOME: process.env['HOME'] ?? '', WEIR_MCP_HTTP_PORT: '8497', ...vars },
     encoding: 'utf8',

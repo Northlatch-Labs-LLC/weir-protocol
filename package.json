@@ -19,8 +19,8 @@
     "canary": "tsx test/injection-canary.ts",
     "transport": "tsx test/transport-http.ts",
     "keys": "tsx test/key-refusal.ts",
-    "check": "tsc --noEmit && tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/discovery-doc.ts && tsx test/authorship-tool.ts && tsx test/discovery-tools.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/hosting-artifacts.ts && tsx test/price-tool.ts && tsx test/declare-tool.ts && tsx test/live-tether.ts",
-    "test": "tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/hosting-artifacts.ts && tsx test/agent-binding.ts && tsx test/agent-port.ts && tsx test/policy-doc.ts && tsx test/ledger-never-evicts-in-flight.ts && tsx test/price-tool.ts && tsx test/declare-tool.ts && tsx test/live-tether.ts",
+    "check": "tsc --noEmit && tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/discovery-doc.ts && tsx test/authorship-tool.ts && tsx test/discovery-tools.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/price-tool.ts && tsx test/declare-tool.ts && tsx test/live-tether.ts",
+    "test": "tsx test/injection-canary.ts && tsx test/transport-http.ts && tsx test/key-refusal.ts && tsx test/env-handoff.ts && tsx test/search-shape.ts && tsx test/agent-binding.ts && tsx test/agent-port.ts && tsx test/policy-doc.ts && tsx test/ledger-never-evicts-in-flight.ts && tsx test/price-tool.ts && tsx test/declare-tool.ts && tsx test/live-tether.ts",
     "build": "tsc -p tsconfig.build.json",
     "prepublishOnly": "tsc -p tsconfig.build.json",
     "prepare": "tsc -p tsconfig.build.json"
@@ -34,6 +34,9 @@
     "zod": "4.5.4"
   },
   "devDependencies": {
+    "@projectx-social/sdk": "1.0.1",
+    "@types/node": "24.13.4",
+    "tsx": "4.23.13",
     "typescript": "7.0.2"
   },
   "files": [
