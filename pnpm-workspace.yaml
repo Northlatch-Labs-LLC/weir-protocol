@@ -1,4 +1,6 @@
+packages:
+  - '.'
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: false
 minimumReleaseAgeExclude:
   - '@mysten/sui@2.30.0'
